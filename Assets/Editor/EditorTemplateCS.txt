@@ -1,0 +1,18 @@
+using UnityEngine;
+using UnityEditor;
+using System.Collections;
+
+/* @SCRIPTNAME@.cs
+ *
+ * An Editor script for @ORIGINALSCRIPTNAME@
+ *
+ * Originally made by Milo Keeble, source can be found on Github @ (Git link here when it's up)*/
+ 
+ [CustomEditor(typeof(@ORIGINALSCRIPTNAME@))]
+ public class @SCRIPTNAME@ : Editor {
+ 
+	public override void OnInspectorGUI(){
+		@ORIGINALSCRIPTNAME@ myTarget = (@ORIGINALSCRIPTNAME@)target;
+	}
+	
+ }
