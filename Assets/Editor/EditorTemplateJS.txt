@@ -4,7 +4,7 @@
  *
  * An Editor script for @ORIGINALSCRIPTNAME@
  *
- * Originally made by Milo Keeble, source can be found on Github @ (Git link here when it's up)*/
+ * Originally made by Milo Keeble, source can be found on Github @ https://github.com/Ragepyro/EditorFileMaker */
 
 @CustomEditor(@ORIGINALSCRIPTNAME@)
 class @SCRIPTNAME@ extends Editor{

@@ -9,7 +9,7 @@ using System.IO;
  *
  * Adds a function to the context menu to make a custom editor script for the selected file.
  *
- * Originally written by Milo Keeble, source can be found on Github @ (Git link here when it's up)*/
+ * Originally written by Milo Keeble, source can be found on Github @ https://github.com/Ragepyro/EditorFileMaker */
 
 public class RightClickEditorScript
 {
