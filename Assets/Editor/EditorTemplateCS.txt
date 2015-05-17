@@ -13,6 +13,7 @@ using System.Collections;
  
 	public override void OnInspectorGUI(){
 		@ORIGINALSCRIPTNAME@ myTarget = (@ORIGINALSCRIPTNAME@)target;
+		DrawDefaultInspector();
 	}
 	
  }
