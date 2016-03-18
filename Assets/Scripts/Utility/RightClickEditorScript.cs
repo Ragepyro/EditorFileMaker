@@ -13,6 +13,9 @@ using System.IO;
 
 public class RightClickEditorScript
 {
+	private static string templateCS = "using UnityEngine;\nusing UnityEditor;\nusing System.Collections;\n\n/* @SCRIPTNAME@.cs\n *\n * An Editor script for @ORIGINALSCRIPTNAME@\n *\n * Originally made by Milo Keeble, source can be found on Github @ https://github.com/Ragepyro/EditorFileMaker */\n \n [CustomEditor(typeof(@ORIGINALSCRIPTNAME@))]\n public class @SCRIPTNAME@ : Editor {\n \n\tpublic override void OnInspectorGUI(){\n\t\t@ORIGINALSCRIPTNAME@ myTarget = (@ORIGINALSCRIPTNAME@)target;\n\t\tDrawDefaultInspector();\n\t}\n\t\n }";
+	private static string templateJS = "#pragma strict\n\n/* @SCRIPTNAME@.js\n *\n * An Editor script for @ORIGINALSCRIPTNAME@\n *\n * Originally made by Milo Keeble, source can be found on Github @ https://github.com/Ragepyro/EditorFileMaker */\n\n@CustomEditor(@ORIGINALSCRIPTNAME@)\nclass @SCRIPTNAME@ extends Editor{\n    function OnInspectorGUI(){\n\n    }\n}";
+
     [MenuItem("Assets/Create/Make Editor Script %#e", false, 82)]
     static void CreateEditorScript(MenuCommand menuCommand)
     {
@@ -21,18 +24,18 @@ public class RightClickEditorScript
             return;
 
         Object selectedObj = Selection.activeObject;
-        TextAsset template = new TextAsset();
+		string template = "";
         string ending = ".FAIL";
 
         //Determines whether the selected file is C# or Javascript and loads up the right template
         if (AssetDatabase.GetAssetPath(selectedObj).EndsWith(".cs"))
         {
-            template = AssetDatabase.LoadAssetAtPath("Assets/Editor/EditorTemplateCS.txt", typeof(TextAsset)) as TextAsset;
+			template = templateCS;
             ending = ".cs";
         }
         else if (AssetDatabase.GetAssetPath(selectedObj).EndsWith(".js"))
         {
-            template = AssetDatabase.LoadAssetAtPath("Assets/Editor/EditorTemplateJS.txt", typeof(TextAsset)) as TextAsset;
+            template = templateJS;
             ending = ".js";
         }
         else
@@ -40,22 +43,17 @@ public class RightClickEditorScript
             Debug.Log("File should be a code file. Aborted creation.");
             return;
         }
-        string templateText = "";
 
-        //Switching out all the placeholder stuff in the template
-        if (template != null)
-        {
-            templateText = template.text;
-            templateText = templateText.Replace("@ORIGINALSCRIPTNAME@", selectedObj.name);
-            templateText = templateText.Replace("@SCRIPTNAME@", selectedObj.name + "Editor");
-        }
+        template = template.Replace("@ORIGINALSCRIPTNAME@", selectedObj.name);
+        template = template.Replace("@SCRIPTNAME@", selectedObj.name + "Editor");
+
         //Make sure Editor folder exists, then write the file into it
         Directory.CreateDirectory(Application.dataPath + "/Editor");
         string datapath = Application.dataPath + "/Editor/" + selectedObj.name + "Editor" + ending;
         string filepath = "Assets/Editor/" + selectedObj.name + "Editor" + ending;
 
         StreamWriter writer = new StreamWriter(datapath);
-        writer.Write(templateText);
+        writer.Write(template);
         writer.Close();
 
         //Cleanup
